@@ -12,14 +12,35 @@ package edu.eci.arsw.math;
 public class Main {
 
     public static void main(String a[]) throws InterruptedException {
-        //System.out.println(bytesToHex(PiDigits.getDigits(0, 10)));
-        //System.out.println(bytesToHex(PiDigits.getDigits(0, 100)));
-        //System.out.println(bytesToHex(PiDigits.getDigits(1, 1000000)));
+        //Cantidad de procesadores Runtime
+        System.out.println("procesadores: "+Runtime.getRuntime().availableProcessors());
 
+        //Funcion getDigits(start, digitos);
+        /* System.out.println(bytesToHex(PiDigits.getDigits(0, 10)));
+        System.out.println(bytesToHex(PiDigits.getDigits(0, 100)));
+        System.out.println(bytesToHex(PiDigits.getDigits(1, 1000000))); */
+
+        //Funcion getDigits (start, count, numHilos);
         long ini = System.currentTimeMillis();
         System.out.println(bytesToHex(PiDigits.getDigits(0, 1000, 10)));
         long fin = System.currentTimeMillis();
         System.out.println("Tiempo total:"+(fin - ini));
+
+        //Calcular 1000000 con un solo hilo
+        System.out.println(bytesToHex(PiDigits.getDigits(0, 1000000, 1)));
+
+        //Calcular 1000000 con 4 hilos (Cantidad de procesadores 4)
+        System.out.println(bytesToHex(PiDigits.getDigits(0, 1000000, 4)));
+
+        //Calcular 1000000 con 8 hilos (Doble cantidad de procesadores)
+        System.out.println(bytesToHex(PiDigits.getDigits(0, 1000000, 8)));
+
+        //Calcular 1000000 con 200 hilos
+        System.out.println(bytesToHex(PiDigits.getDigits(0, 1000000, 200)));
+
+        //Calcular 1000000 con 500 hilos
+        System.out.println(bytesToHex(PiDigits.getDigits(0, 1000000, 500)));
+
     }
 
     private final static char[] hexArray = "0123456789ABCDEF".toCharArray();
