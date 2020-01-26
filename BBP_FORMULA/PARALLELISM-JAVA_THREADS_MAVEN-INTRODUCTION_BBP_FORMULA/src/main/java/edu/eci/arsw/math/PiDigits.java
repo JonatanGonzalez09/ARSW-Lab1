@@ -1,5 +1,6 @@
 package edu.eci.arsw.math;
 
+
 ///  <summary>
 ///  An implementation of the Bailey-Borwein-Plouffe formula for calculating hexadecimal
 ///  digits of pi.
@@ -22,7 +23,6 @@ public class PiDigits {
         if (start < 0) {
             throw new RuntimeException("Invalid Interval");
         }
-
         if (count < 0) {
             throw new RuntimeException("Invalid Interval");
         }
@@ -45,6 +45,34 @@ public class PiDigits {
         }
 
         return digits;
+    }
+
+    public static byte[] getDigits(int start, int count, int numHilos) throws InterruptedException {
+        if (start < 0 || count < 0) {
+            throw new RuntimeException("Invalid Interval");
+        }
+        byte[] numFinal= new byte[count];
+        ThreadPi[] listaHilos = new ThreadPi[numHilos];        
+        int div = count / numHilos;
+        int inicio = 0;
+        int digitos;
+        for (int i = 0; i < numHilos; i++){
+            if (i == (numHilos - 1)) {
+                int resto = count % numHilos;
+                digitos = div + resto;
+            }else{
+                digitos = div;
+            }
+            listaHilos[i] = new ThreadPi(start, digitos);
+            listaHilos[i].start();
+            listaHilos[i].join();
+
+            byte[] lisDig = listaHilos[i].getLista();
+            System.arraycopy(lisDig, 0, numFinal, inicio, lisDig.length);
+            start+=div;
+            inicio+=div;
+        }
+        return numFinal;
     }
 
     /// <summary>

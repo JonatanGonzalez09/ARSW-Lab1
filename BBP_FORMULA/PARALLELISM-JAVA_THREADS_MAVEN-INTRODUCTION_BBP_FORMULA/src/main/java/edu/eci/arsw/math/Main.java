@@ -5,18 +5,21 @@
  */
 package edu.eci.arsw.math;
 
-import java.util.Arrays;
-
 /**
  *
  * @author hcadavid
  */
 public class Main {
 
-    public static void main(String a[]) {
-        System.out.println(bytesToHex(PiDigits.getDigits(0, 10)));
-        System.out.println(bytesToHex(PiDigits.getDigits(1, 100)));
-        System.out.println(bytesToHex(PiDigits.getDigits(1, 1000000)));
+    public static void main(String a[]) throws InterruptedException {
+        //System.out.println(bytesToHex(PiDigits.getDigits(0, 10)));
+        //System.out.println(bytesToHex(PiDigits.getDigits(0, 100)));
+        //System.out.println(bytesToHex(PiDigits.getDigits(1, 1000000)));
+
+        long ini = System.currentTimeMillis();
+        System.out.println(bytesToHex(PiDigits.getDigits(0, 1000, 10)));
+        long fin = System.currentTimeMillis();
+        System.out.println("Tiempo total:"+(fin - ini));
     }
 
     private final static char[] hexArray = "0123456789ABCDEF".toCharArray();
