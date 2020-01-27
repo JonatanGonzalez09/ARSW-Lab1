@@ -22,6 +22,19 @@ Como se puede observar en la ejecucion del programa. Cuando se ejecuta con start
 ## Part II - BBP Formula Exercise ##
 Se utilizo la funcion ```join()``` para que el hilo actual espere a que el hilo sobre el que lo invoca termine su ejecución.
 
+### **Para la ejecucion de pruebas:** ###
+ _-Para empaquetar el proyecto:_
+ ``` mvn package```
+ 
+ _-Para ejecutar los test:_
+ ``` mvn test```
+ 
+ _- Para ejecutar el CountThreadsMain desde la terminal:_
+     ```mvn exec:java -Dexec.mainClass=edu.eci.arsw.threads.CountThreadsMain```
+     
+ _- Para ejecutar el Main desde la terminal:_
+ ```mvn exec:java -Dexec.mainClass=edu.eci.arsw.math.Main```
+
 ## Part III - Performance Evaluation ## 
  ### 1. Single thread ###
  ![](https://github.com/JonatanGonzalez09/ARSW-Lab1/blob/master/BBP_FORMULA/PARALLELISM-JAVA_THREADS_MAVEN-INTRODUCTION_BBP_FORMULA/resources/unHilo.jpg)
