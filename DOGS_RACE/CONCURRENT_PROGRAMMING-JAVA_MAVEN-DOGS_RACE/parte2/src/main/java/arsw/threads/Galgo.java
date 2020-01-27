@@ -10,12 +10,14 @@ public class Galgo extends Thread {
 	private int paso;
 	private Carril carril;
 	RegistroLlegada regl;
+	boolean pausar;
 
 	public Galgo(Carril carril, String name, RegistroLlegada reg) {
 		super(name);
 		this.carril = carril;
 		paso = 0;
 		this.regl=reg;
+
 	}
 
 	public void corra() throws InterruptedException {
@@ -32,11 +34,14 @@ public class Galgo extends Thread {
 				if (ubicacion==1){
 					regl.setGanador(this.getName());
 				}
-				
+			}
+			synchronized(this){
+				while(pausar){
+					wait();
+				}
 			}
 		}
 	}
-
 
 	@Override
 	public void run() {
@@ -47,6 +52,17 @@ public class Galgo extends Thread {
 			e.printStackTrace();
 		}
 
+	}
+
+	public void pausar(){
+		pausar=true;
+	}
+
+	public void reanudar(){
+		pausar=false;
+		synchronized(this){
+			notifyAll();
+		}
 	}
 
 }
