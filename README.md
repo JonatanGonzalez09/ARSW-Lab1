@@ -2,6 +2,8 @@
 
 Realizado por: Jonatan Esteban Gonzalez Rodriguez
 
+# BBP Formula #
+
 ## Part I - Introduction to Java Threads ##
 Change the beginning with start() to run(). How does the output change? Why?
 
@@ -60,3 +62,59 @@ _1. According to Amdahls law, where S (n) is the theoretical performance improve
  _3. According to the above, if for this problem instead of 500 threads on a single CPU, 1 wire could be used on each of 500 hypothetical machines, would Amdahls's law be better applied? If, instead, c threads were used in 500 / c distributed machines (where c is the number of cores of said machines), would it be improved? Explain your answer._
  
  ``` La ley de Amdahls estaria mejor aplicada en 500 maquinas diferentes, ya que se tienen los procesadores de cada maquina exclusivos para poder ejecutar los hilos en paralelo. A diferencia que se use solo una maquina ya que esta no correra los 500 hilos simultaneamente debido a que los nucleos que tiene no dejarian procesar 500 hilos en simultaneo. Se podria ejecutar los 500 hilos en una sola maquina, solo si esta permitiera procesar esa cantidad de hilos en simultaneo de lo contrario no porque ya n no va a ser 500 si no la cantidad de hilos que la maquina pueda ejecutar simultaneamente. ```
+
+# Dogs Race case #
+
+## Part I ##
+Creation, commissioning and coordination of threads.
+
+_1. Review the "concurrent cousins" program (in the folder part1), provided in the package edu.eci.arsw.primefinder. This is a program that calculates the prime numbers between two intervals, distributing their search among independent threads. For now, it has a single thread that seeks cousins between 0 and 30,000,000. Run it, open the operating system process manager, and verify how many cores are used by it._
+
+**Programa que calcula los primos con un solo hilo.**
+![](https://github.com/JonatanGonzalez09/ARSW-Lab1/blob/master/DOGS_RACE/CONCURRENT_PROGRAMMING-JAVA_MAVEN-DOGS_RACE/parte2/resources/unHilo.jpg)
+
+_2. Modify the program so that, instead of solving the problem with a single thread, do it with three, where each of these will make up the first part of the original problem. Check the operation again, and again check the use of the equipment cores._
+
+**Programa que calcula los primos con tres hilos.**
+![](https://github.com/JonatanGonzalez09/ARSW-Lab1/blob/master/DOGS_RACE/CONCURRENT_PROGRAMMING-JAVA_MAVEN-DOGS_RACE/parte2/resources/tresHilos.jpg)
+
+_3. What you have been asked for is: you must modify the application so that when 5 seconds have elapsed since the execution started, all the threads are stopped and the number of primes found so far is displayed. Then, you must wait for the user to press ENTER to resume their execution._
+
+![](https://github.com/JonatanGonzalez09/ARSW-Lab1/blob/master/DOGS_RACE/CONCURRENT_PROGRAMMING-JAVA_MAVEN-DOGS_RACE/parte2/resources/primos.jpg)
+
+## Part II ##
+
+_- Para ejecutar el main desde la terminal se utiliza el comando:_
+``` mvn exec:java -Dexec.mainClass=edu.eci.arsw.primefinder.Main ```
+
+## Part III ##
+**1. Fix the application so that the results notice is shown only when the execution of all the ‘greyhound’ threads is finished. For this keep in mind:**
+
+   _1. The action of starting the race and showing the results is carried out from line 38 of MainCanodromo._
+   
+   _2. The join() method of the Thread class can be used to synchronize the thread that starts the race, with the completion of the greyhound threads._
+   
+**2. Once the initial problem has been corrected, run the application several times, and identify the inconsistencies in the results of the same by seeing the ‘ranking’ shown on the console (sometimes valid results could appear, but in other cases such inconsistencies may occur). From this, identify the critical regions of the program.**
+
+_Se realizaron pruebas para verificar el correcto funcionamiento del ganador y del boton de pausar y continuar la carrera._
+**Parte de Interfaz sin pausar la carrera**
+
+![](https://github.com/JonatanGonzalez09/ARSW-Lab1/blob/master/DOGS_RACE/CONCURRENT_PROGRAMMING-JAVA_MAVEN-DOGS_RACE/parte2/resources/InterfazSinPausa.jpg)
+
+**Parte de Consola sin pausar la carrera**
+
+![](https://github.com/JonatanGonzalez09/ARSW-Lab1/blob/master/DOGS_RACE/CONCURRENT_PROGRAMMING-JAVA_MAVEN-DOGS_RACE/parte2/resources/Consola1.jpg)
+
+**Parte de Interfaz pausando la carrera**
+
+![](https://github.com/JonatanGonzalez09/ARSW-Lab1/blob/master/DOGS_RACE/CONCURRENT_PROGRAMMING-JAVA_MAVEN-DOGS_RACE/parte2/resources/InterfazConPausa.jpg)
+
+**Parte de Consola pausando la carrera**
+
+![](https://github.com/JonatanGonzalez09/ARSW-Lab1/blob/master/DOGS_RACE/CONCURRENT_PROGRAMMING-JAVA_MAVEN-DOGS_RACE/parte2/resources/Consola2.jpg)
+
+**Region Critica**: _En la clase Galgo dentro del método corra(), se debio realizar un join debido a que los hilos necesitaban la informacion de el metodo; y al no tenerlo estaba generando datos corruptos._
+
+**3. Use a synchronization mechanism to ensure that these critical regions only access one thread at a time. Verify the results.**
+
+4. Implement the pause and continue functionalities. With these, when "Stop" is clicked, all the threads of the greyhounds should fall asleep, and when "Continue" is clicked they should wake up and continue with the race. Design a solution that allows you to do this using the synchronization mechanisms with the Locks primitives provided by the language (wait and notifyAll).
